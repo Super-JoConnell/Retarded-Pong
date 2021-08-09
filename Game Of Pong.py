@@ -36,7 +36,9 @@ ball.shape("circle")
 ball.color("yellow")
 ball.penup()
 ball.goto(0, 0)
-ball.shapesize(stretch_wid=1, stretch_len=1)
+#ball.shapesize(stretch_wid=1, stretch_len=1)
+ball.dx = 0.1
+ball.dy = 0.1
 
 #Functions
 def paddle_l_up():
@@ -74,10 +76,38 @@ wn.onkeypress(esc_shutdown, "Escape")
 
 
 
-
-
 # Main Game Loop
 while True:
     wn.update()
 
-#git commit test 
+    # Move the ball
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+
+    # Border Checking
+    if ball.ycor() > 290:
+        ball.sety(290)
+        ball.dy = ball.dy * -1
+
+    if ball.ycor() < -290:
+        ball.sety(-290)
+        ball.dy = ball.dy * -1
+
+    if ball.xcor() > 390:
+        ball.goto(0, 0)
+        ball.dx   = ball.dx * -1
+
+    if ball.xcor() < -390:
+        ball.goto(0, 0)
+        ball.dx = ball.dx * -1
+
+        
+    # Paddle Collision
+ 
+    if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < paddle_r.ycor() +40 and ball.ycor() > paddle_r.ycor() -40:
+        ball.setx(340)
+        ball.dx = ball.dx * -1
+
+    if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < paddle_l.ycor() +40 and ball.ycor() > paddle_l.ycor() -40:
+        ball.setx(-340)
+        ball.dx = ball.dx * -1
