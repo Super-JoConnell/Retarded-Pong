@@ -10,6 +10,12 @@ wn.bgcolor("black")
 wn.setup(width=800, height=600)
 wn.tracer(0)
 
+# Score
+
+score_1 = 0
+score_a = 0
+
+
 
 #Paddle L
 paddle_l = turtle.Turtle()
@@ -39,6 +45,19 @@ ball.goto(0, 0)
 #ball.shapesize(stretch_wid=1, stretch_len=1)
 ball.dx = 0.1
 ball.dy = 0.1
+
+# Pen
+
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+#pen.write("Retard 1: 0      Retard A: 0", align="center", font=("Courier", 18, "bold"))
+pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))
+
+
 
 #Functions
 def paddle_l_up():
@@ -96,11 +115,16 @@ while True:
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx = ball.dx * -1
+        score_1 = score_1 + 1
+        pen.clear()
+        pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))
 
     if ball.xcor() < -390:
         ball.goto(0, 0)
         ball.dx = ball.dx * -1
-
+        score_a = score_a +1
+        pen.clear()
+        pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))
 
     # Paddle Collision
  
