@@ -1,7 +1,7 @@
 # Joconnells Game Of Pong
 # Its a work in progress ok
 # dont judge
-
+from playsound import playsound
 import turtle
 import winsound
 
@@ -20,6 +20,8 @@ score_a = 0
 
 FPS = 30 # constant: refresh about 30 times per second
 TIMER_VALUE = 1000//FPS # the timer value in milliseconds for timer events
+music = "SFX/background.wav"  # music sound file
+sfx = "SFX/pop.wav" # sfx location
 
 # Variable
 
@@ -103,7 +105,7 @@ wn.onkeypress(esc_shutdown, "Escape")
 
 # Main Game Physics for laggy Ball 
 def move_ball():
-    global score_1, score_a, should_draw, t, xx, yy, xr, yr # to bring in variables and or constants and edit them in a function box
+    global score_1, score_a, should_draw, xx, yy, xr, yr # to bring in variables and or constants and edit them in a function box
 
     # Move the ball
 
@@ -118,12 +120,12 @@ def move_ball():
     if yy > 290:
         yy = 290
         yr = yr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
+        playsound(sfx, block=False)
 
     elif yy < -290:
         yy = -290
         yr = yr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
+        playsound(sfx, block=False)
 
     if xx > 390:
         xx = 0
@@ -146,33 +148,33 @@ def move_ball():
     if xx > 340 and xx < 350 and yy < paddle_r.ycor() +40 and yy > paddle_r.ycor() -40:  #collision for side part of paddle
         xx = 340
         xr = xr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
+        playsound(sfx, block=False)
 
     elif xx < -340 and xx > -350 and yy < paddle_l.ycor() +40 and yy > paddle_l.ycor() -40:  #collision for side part of paddle
         xx = -340
         xr = xr *-1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-    
+        playsound(sfx, block=False)
+
     elif xx > 341 and xx < 360 and yy < paddle_r.ycor() +50 and yy > paddle_r.ycor():    # collision for top of paddle
         yy = (paddle_r.ycor() +50)
         yr = yr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
+        playsound(sfx, block=False)
 
     elif xx > 341 and xx < 360 and yy > paddle_r.ycor() -50 and yy < paddle_r.ycor():   # collision for bottom of paddle
         yy = (paddle_r.ycor() -50)
         yr = yr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
+        playsound(sfx, block=False)
 
     elif xx < -341 and xx > -360 and yy > paddle_l.ycor() -50 and yy < paddle_l.ycor():   # collision for bottom of paddle
         yy = (paddle_l.ycor() -50)
         yr = yr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-
+        playsound(sfx, block=False)
 
     elif xx < -341 and xx > -360 and yy < paddle_l.ycor() +50 and yy > paddle_l.ycor():   # collision for top of paddle
         yy = (paddle_l.ycor() +50)
         yr = yr * -1
-        winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
+        playsound(sfx, block=False)
+        #winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
     if xx != bxx and yy != byy:  # to confirm changes to cordinates position to tell python to draw ball
         should_draw = True
@@ -194,6 +196,8 @@ def draw_ball():    #draws ball
 
 
 wn.ontimer(move_ball, TIMER_VALUE)
+#playsound(music, block=False)
+winsound.PlaySound(music, winsound.SND_ASYNC + winsound.SND_LOOP)
 
 while True:  # loops forever
     draw_ball()
