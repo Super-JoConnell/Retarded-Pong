@@ -5,7 +5,6 @@
 import turtle
 import winsound
 
-
 wn = turtle.Screen()
 wn.title("Retarded Pong")
 wn.bgcolor("black")
@@ -27,8 +26,6 @@ TIMER_VALUE = 1000//FPS # the timer value in milliseconds for timer events
 should_draw = True #to decide to draw  the turtle object, needed for fps control
 xx = 0 # cordinates for ball position
 yy = 0 # same as above
-t = 0 # time something to do with turtle fps looping for drawing linked to timer_value
-
 
 #Paddle L
 paddle_l = turtle.Turtle()
@@ -51,15 +48,9 @@ paddle_r.shapesize(stretch_wid=5, stretch_len=1)
 #Ball
 ball = turtle.Turtle()
 ball.speed(0)
-#ball.shape("circle")
-#ball.color("yellow")
 ball.penup()
-#ball.goto(0, 0)
-
 ball.hideturtle()
 
-
-#ball.shapesize(stretch_wid=1, stretch_len=1)
 xr = 3.0  #rate of position change for the ball
 yr = 3.0  #rate of position change for the ball
 
@@ -71,10 +62,7 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
-#pen.write("Retard 1: 0      Retard A: 0", align="center", font=("Courier", 18, "bold"))
-pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))
-
-
+pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))   # writes the score onto the screen
 
 #Functions
 def paddle_l_up():
@@ -104,7 +92,6 @@ def paddle_r_down():
 def esc_shutdown():
     wn.bye()
 
-
 #Keyboard Bindings
 
 wn.listen()
@@ -114,162 +101,100 @@ wn.onkeypress(paddle_r_up, "Up")
 wn.onkeypress(paddle_r_down, "Down")
 wn.onkeypress(esc_shutdown, "Escape")
 
-
-# Main Game Physics for laggy Ball
+# Main Game Physics for laggy Ball 
 def move_ball():
-    global score_1, score_a, should_draw, t, xx, yy, xr, yr
-    #wn.update()
-    #t += TIMER_VALUE/1000 # every time this function is called, time increases by this value
-    #BX = ball.xcor()
-    #BY = ball.ycor()
+    global score_1, score_a, should_draw, t, xx, yy, xr, yr # to bring in variables and or constants and edit them in a function box
 
     # Move the ball
-    #ball.setx(ball.xcor() + ball.dx)
-    #ball.sety(ball.ycor() + ball.dy)
+
     bxx = xx   # setting pre change parameter so can set should draw if changes
     byy = yy
 
     xx = xx + xr # changing position of the ball cor
     yy = yy + yr
 
-
     # Border Checking
-    #if ball.ycor() > 290:
+
     if yy > 290:
-        #ball.sety(290)
         yy = 290
         yr = yr * -1
-        #ball.dy = ball.dy * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-
-    #elif ball.ycor() < -290:
-     #   ball.sety(-290)
-      #  ball.dy = ball.dy * -1
-       # winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
     elif yy < -290:
-        #ball.sety(290)
         yy = -290
         yr = yr * -1
-        #ball.dy = ball.dy * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    #if ball.xcor() > 390:
     if xx > 390:
         xx = 0
         yy = 0
-        #ball.goto(0, 0)
         xr = xr * -1
-        #ball.dx = ball.dx * -1
         score_1 = score_1 + 1
         pen.clear()
         pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))
 
-    #elif ball.xcor() < -390:
-    #    ball.goto(0, 0)
-    #    ball.dx = ball.dx * -1
     elif xx < -390:
         xx = 0
         yy = 0
-        #ball.goto(0, 0)
         xr = xr * -1 
         score_a = score_a +1
         pen.clear()
         pen.write("Retard 1: {}      Retard A: {}".format(score_1, score_a), align="center", font=("Courier", 18, "bold"))
 
     # Paddle Collision
- 
-    #if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < paddle_r.ycor() +40 and ball.ycor() > paddle_r.ycor() -40:
-     #   ball.setx(340)
-      #  ball.dx = ball.dx * -1
-       # winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-    
-    if xx > 340 and xx < 350 and yy < paddle_r.ycor() +40 and yy > paddle_r.ycor() -40:
+     
+    if xx > 340 and xx < 350 and yy < paddle_r.ycor() +40 and yy > paddle_r.ycor() -40:  #collision for side part of paddle
         xx = 340
         xr = xr * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    #elif ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < paddle_l.ycor() +40 and ball.ycor() > paddle_l.ycor() -40:
-     #   ball.setx(-340)
-      #  ball.dx = ball.dx * -1
-       # winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-
-    elif xx < -340 and xx > -350 and yy < paddle_l.ycor() +40 and yy > paddle_l.ycor() -40:
+    elif xx < -340 and xx > -350 and yy < paddle_l.ycor() +40 and yy > paddle_l.ycor() -40:  #collision for side part of paddle
         xx = -340
         xr = xr *-1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-
-    #elif ball.xcor() > 341 and ball.xcor() < 360 and ball.ycor() < paddle_r.ycor() +50 and ball.ycor() > paddle_r.ycor():
-     #   ball.sety(paddle_r.ycor() +50)
-      #  ball.dy = ball.dy * -1
-       # winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
     
-    elif xx > 341 and xx < 360 and yy < paddle_r.ycor() +50 and yy > paddle_r.ycor():
+    elif xx > 341 and xx < 360 and yy < paddle_r.ycor() +50 and yy > paddle_r.ycor():    # collision for top of paddle
         yy = (paddle_r.ycor() +50)
         yr = yr * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    #elif ball.xcor() > 341 and ball.xcor() < 360 and ball.ycor() > paddle_r.ycor() -50 and ball.ycor() < paddle_r.ycor():
-     #   ball.sety(paddle_r.ycor() -50)
-      #  ball.dy = ball.dy * -1
-       # winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-
-    elif xx > 341 and xx < 360 and yy > paddle_r.ycor() -50 and yy < paddle_r.ycor():
+    elif xx > 341 and xx < 360 and yy > paddle_r.ycor() -50 and yy < paddle_r.ycor():   # collision for bottom of paddle
         yy = (paddle_r.ycor() -50)
         yr = yr * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    #elif ball.xcor() < -341 and ball.xcor() > -360 and ball.ycor() > paddle_l.ycor() -50 and ball.ycor() < paddle_l.ycor():
-      #  ball.sety(paddle_l.ycor() -50)
-       # ball.dy = ball.dy * -1
-        #winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
-
-    elif xx < -341 and xx > -360 and yy > paddle_l.ycor() -50 and yy < paddle_l.ycor():
+    elif xx < -341 and xx > -360 and yy > paddle_l.ycor() -50 and yy < paddle_l.ycor():   # collision for bottom of paddle
         yy = (paddle_l.ycor() -50)
         yr = yr * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    #elif ball.xcor() < -341 and ball.xcor() > -360 and ball.ycor() < paddle_l.ycor() +50 and ball.ycor() > paddle_l.ycor():
-     #   ball.sety(paddle_l.ycor() +50)
-      #  ball.dy = ball.dy * -1
-       # winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    elif xx < -341 and xx > -360 and yy < paddle_l.ycor() +50 and yy > paddle_l.ycor():
+    elif xx < -341 and xx > -360 and yy < paddle_l.ycor() +50 and yy > paddle_l.ycor():   # collision for top of paddle
         yy = (paddle_l.ycor() +50)
         yr = yr * -1
         winsound.PlaySound("SFX/pop.wav", winsound.SND_ASYNC)
 
-    if xx != bxx and yy != byy:
+    if xx != bxx and yy != byy:  # to confirm changes to cordinates position to tell python to draw ball
         should_draw = True
 
     wn.ontimer(move_ball, TIMER_VALUE)
 
 
-def draw_ball():
+def draw_ball():    #draws ball
     global should_draw, ball
     if should_draw == False:
         return
     ball.clear()
-    #ball = turtle.Turtle()
-    #ball.speed(0)
     ball.shape("circle")
     ball.color("yellow")
-    #ball.penup()
     ball.goto(xx, yy)
     ball.showturtle()
 
     should_draw = False
 
 
-
-
-
-
-
 wn.ontimer(move_ball, TIMER_VALUE)
 
-while True:
+while True:  # loops forever
     draw_ball()
-    #move_ball()
-    #wn.ontimer(move_ball, TIMER_VALUE)
     wn.update()
