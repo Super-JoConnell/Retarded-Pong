@@ -18,3 +18,20 @@ or
 
 pip3 install playsound
 
+
+
+to compile in windows recommend:
+pyinstaller
+
+to install:
+
+pip install pyinstaller
+
+or
+
+pip3 install pyinstaller
+
+then
+
+pyinstaller "Game Of Pong.py"
+
